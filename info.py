@@ -54,7 +54,7 @@ IS_STREAM = bool(STREAM_BIN and STREAM_URL)
 #Use this feature, if you have deployed file to link bot. paste the app url with stream url and add filter bot as admin in bin channel and add id in stream bin
 
 # Others
-IS_VERIFY = bool(environ.get('VERIFY', False))
+VERIFY = bool(environ.get('VERIFY', False))
 HOW_TO_VERIFY = environ.get('HOW_TO_VERIFY', 'https://t.me/Howto_openlink_0')
 SHORTLINK_URL = environ.get('SHORTLINK_URL', 'krownlinks.com')
 SHORTLINK_API = environ.get('SHORTLINK_API', '274bdc3b7ff8982f5a0167edf2034f40ddc52d15')
