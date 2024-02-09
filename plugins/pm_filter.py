@@ -2164,8 +2164,8 @@ async def auto_filter(client, msg, spoll=False):
     
     if not spoll:
         message = msg
-        if message.text is not None and message.text.startswith("/"): 
-            return  # ignore commands
+        settings = await get_settings(message.chat.id)
+        if message.text.startswith("/"): return  # ignore commands
         if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
             return
         if len(message.text) < 100:
