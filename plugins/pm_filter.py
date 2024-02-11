@@ -1121,6 +1121,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
             fileName = {quote_plus(get_name(log_msg))}
             page_links = f"{STREAM_URL}watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
             stream_links = f"{STREAM_URL}{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
+            page_link = get_shortlink()
+            stream_link = get_shortlink()
             page_link = get_shortlink(page_links) 
             stream_link = get_shortlink(stream_links)
             
