@@ -1119,15 +1119,10 @@ async def cb_handler(client: Client, query: CallbackQuery):
                 file_id=file_id,
             )
             fileName = {quote_plus(get_name(log_msg))}
-            page_links = f"{STREAM_URL}watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
-            stream_links = f"{STREAM_URL}{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
+            page_link = f"{STREAM_URL}watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
+            stream_link = f"{STREAM_URL}{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
             #page_link = await get_shortlink(chat_id=log_msg.chat.id, link=page_links)
             #stream_link = await get_shortlink(chat_id=log_msg.chat.id, link=stream_links)
-            page_link = page_links
-            stream_links = stream_link
-
-
-            
             
             g = await query.message.reply_text("<b>Link Generating...</b>")
             await asyncio.sleep(1)
