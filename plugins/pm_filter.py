@@ -263,25 +263,22 @@ async def advantage_spoll_choker(bot, query):
     if movie_ == "close_spellcheck":
         return await query.message.delete()
     movie = movies[(int(movie_))]
-    movie = re.sub(r"[:\-]", " ", movie)
-    movie = re.sub(r"\s+", " ", movie).strip()
-    await query.answer(script.TOP_ALRT_MSG)
-    gl = await global_filters(bot, query.message, text=movie)
-    if gl == False:
-        k = await manual_filters(bot, query.message, text=movie)
-        if k == False:
-            files, offset, total_results = await get_search_results(query.message.chat.id, movie, offset=0, filter=True)
-            if files:
-                k = (movie, files, offset, total_results)
-                await auto_filter(bot, query, k)
-            else:
-                reqstr1 = query.from_user.id if query.from_user else 0
-                reqstr = await bot.get_users(reqstr1)
-                if NO_RESULTS_MSG:
-                    await bot.send_message(chat_id=LOG_CHANNEL, text=(script.NORSLTS.format(reqstr.id, reqstr.mention, movie)))
-                k = await query.message.edit(script.MVE_NT_FND)
-                await asyncio.sleep(10)
-                await k.delete()
+    await query.answer(script.TOP_ALRT_MSG, show_alert=True)
+    k = await manual_filters(bot, query.message, text=movie)
+    if k == False:
+        files, offset, total_results = await get_search_results(query.message.chat.id, movie, offset=0, filter=True)
+        if files:
+            await query.message.delete()
+            k = (movie, files, offset, total_results)
+            await auto_filter(bot, query, k)
+        else:         
+            reqstr1 = query.from_user.id if query.from_user else 0
+            reqstr = await bot.get_users(reqstr1)
+            if NO_RESULTS_MSG:
+                await bot.send_message(chat_id=LOG_CHANNEL, text=(script.NORSLTS.format(reqstr.id, reqstr.mention, movie)))
+            k = await query.message.edit(script.MVE_NT_FND)
+            await asyncio.sleep(10)
+            await k.delete()
 
 #languages-start
 
@@ -2360,7 +2357,7 @@ async def auto_filter(client, msg, spoll=False):
         except Exception as e:
             logger.exception(e)
             m=await message.reply_text("🔎") 
-            fek = await message.reply_text(text=cap, reply_markup=InlineKeyboardMarkup(btn))
+            fek = await message.reply_photo(photo=NOR_IMG, caption=cap, reply_markup=InlineKeyboardMarkup(btn))
             await m.delete()
             try:
                 if settings['auto_delete']:
@@ -2373,7 +2370,7 @@ async def auto_filter(client, msg, spoll=False):
                 await fek.delete()
                 await message.delete()
     else:
-        fuk = await message.reply_text(text=cap, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=True)
+        fuk = await message.reply_photo(photo=NOR_IMG, caption=cap, reply_markup=InlineKeyboardMarkup(btn))
         await m.delete()
         try:
             if settings['auto_delete']:
